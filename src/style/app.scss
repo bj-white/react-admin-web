@@ -1,0 +1,99 @@
+.app_wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #f5f5f5;
+    .app_header {
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        background: #333;
+        color: #fff;
+        .logo {
+            display: inline-block;
+            width: 160px;
+            height: 30px;
+            margin-top: 10px;
+            background: #fff;
+        }
+    }
+    .app_menu_content_footer {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        &.close {
+            .app_menu {
+                width: 80px;
+            }
+            .app_content_footer {
+                left: 80px;
+            }
+        }
+        .app_menu {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 220px;
+            background: #fff;
+            .app_menu_top {
+                position: absolute;
+                top: 0;
+                bottom: 50px;
+                left: 0;
+                right: 0;
+                overflow: auto;
+                /* .ant-menu-item,
+                .ant-menu-submenu {
+                    i {
+                        margin-right: 5px;
+                    }
+                } */
+            }
+            .app_menu_bottom {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                cursor: pointer;
+                background: #000;
+                color: #fff;
+                i {
+                    display: inline-block;
+                    font-size: 18px;
+                    transform: rotate(180deg);
+                    transition: all 0.3s;
+                    &.collapsed {
+                        transform: rotate(0);
+                    }
+                }
+            }
+        }
+        .app_content_footer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 220px;
+            overflow: auto;
+            .app_content {
+                margin: 15px 15px 0;
+                padding: 15px;
+                min-height: calc(100% - 75px);
+                background: #fff;
+            }
+            .app_footer {
+                height: 60px;
+                line-height: 60px;
+                text-align: center;
+            }
+        }
+    }
+}
