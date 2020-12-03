@@ -1,0 +1,35 @@
+{
+    "data": [
+        { 
+            "url": "/app/dashboard/index",
+            "name": "首页",
+            "icon": "icon iconfont iconshenhe",
+            "component": "Dashboard",
+            "roles": ["admin"],
+            "children": []
+        },
+        {
+            "url": "/app/system",
+            "name": "系统管理",
+            "icon": "icon iconfont iconshenhe",
+            "children": [
+                {
+                    "url": "/app/system/user",
+                    "name": "新建用户",
+                    "icon": "icon iconfont iconfenlei",
+                    "component": "UserList",
+                    "roles": ["student"],
+                    "children": []
+                },
+                {
+                    "url": "/app/system/role",
+                    "name": "新建角色",
+                    "icon": "icon iconfont iconxitongguanli",
+                    "component": "RoleList",
+                    "roles": ["admin"],
+                    "children": []
+                }
+            ]
+        }
+    ]
+}
