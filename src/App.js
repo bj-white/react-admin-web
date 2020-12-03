@@ -25,7 +25,7 @@ export default class App extends React.Component {
                         <div className="app_content">
                             <Route/>
                         </div>
-                        <div className="app_footer">this is footer..</div>
+                        <div className="app_footer">this is footer.</div>
                     </div>
                 </div>
             </div>
