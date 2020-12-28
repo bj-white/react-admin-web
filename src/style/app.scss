@@ -82,11 +82,17 @@
             right: 0;
             bottom: 0;
             left: 220px;
+            padding: 0 15px;
             overflow: auto;
+            .app_breadcrumb {
+                height: 50px;
+                .ant-breadcrumb {
+                    line-height: 50px;
+                }
+            }
             .app_content {
-                margin: 15px 15px 0;
                 padding: 15px;
-                min-height: calc(100% - 75px);
+                min-height: calc(100% - 110px);
                 background: #fff;
             }
             .app_footer {

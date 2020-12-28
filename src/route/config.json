@@ -15,7 +15,7 @@
             "children": [
                 {
                     "url": "/app/system/user",
-                    "name": "新建用户",
+                    "name": "用户管理",
                     "icon": "icon iconfont iconfenlei",
                     "component": "UserList",
                     "roles": ["student"],
@@ -23,7 +23,7 @@
                 },
                 {
                     "url": "/app/system/role",
-                    "name": "新建角色",
+                    "name": "角色管理",
                     "icon": "icon iconfont iconxitongguanli",
                     "component": "RoleList",
                     "roles": ["admin"],

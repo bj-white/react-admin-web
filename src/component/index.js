@@ -40,5 +40,6 @@ export default {
     Dashboard: asyncComponent(() => import('./dashboard/Dashboard')),
     UserList: asyncComponent(() => import('./user/UserList')),
     RoleList: asyncComponent(() => import('./role/RoleList')),
+    MenuList: asyncComponent(() => import('./menu/MenuList')),
     Login: asyncComponent(() => import('./login/Login')),
 };

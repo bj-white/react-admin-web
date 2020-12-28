@@ -1,6 +1,7 @@
 import React from 'react';
 import Route from './route';
 import SiderMenu from './component/SiderMenu';
+import { Breadcrumb } from 'antd';
 
 import './style/app.scss';
 export default class App extends React.Component {
@@ -22,6 +23,15 @@ export default class App extends React.Component {
                 <div className={this.state.collapsed ? 'app_menu_content_footer close' : 'app_menu_content_footer'}>
                     <SiderMenu collapsed={this.state.collapsed} toggleCollapsed={this.toggleCollapsed.bind(this)}></SiderMenu>
                     <div className="app_content_footer">
+                        <div className="app_breadcrumb">
+                            <Breadcrumb>
+                                <Breadcrumb.Item>首页</Breadcrumb.Item>
+                                <Breadcrumb.Item>
+                                    <a href="">Table</a>
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>动态Table</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
                         <div className="app_content">
                             <Route/>
                         </div>

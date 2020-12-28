@@ -1,10 +1,8 @@
-import request from '../../util/request.js';
+import {getMenuTree1} from '../../api/menuApi.js';
 
 export function getMenuTree () {
     return (dispatch) => {
-        return request({
-            url: '../../route/config.json',
-        }).then((response) => {
+        return getMenuTree1().then((response) => {
             dispatch({type: 'SET_MENU_TREE', menuTree: response.data.data});
         });
     }

@@ -7,13 +7,13 @@ module.exports = merge(common, {
     devtool: 'inline-source-map',
     devServer: {
         contentBase: path.join(__dirname, '/src/'),
-        /* proxy: {
+        proxy: {
             "/api": {
               target: 'http://localhost:9527',
               pathRewrite: {'^/api' : ''},
               changeOrigin: true
             }
-        }, */
+        },
         disableHostCheck: true,
     },
 });
