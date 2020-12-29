@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --color --config webpack.dev.js",
+    "dev": "webpack-dev-server --progress --color --config webpack.dev.js",
     "build": "webpack --progress --color --config webpack.prod.js"
   },
   "devDependencies": {

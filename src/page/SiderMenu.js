@@ -57,7 +57,7 @@ class SiderBar extends React.Component {
                     >
                         {
                             this.props.menus.map((item) => (
-                                item.children.length
+                                item.children
                                     ? renderSubMenu(item)
                                     : renderMenuItem(item)
                             ))

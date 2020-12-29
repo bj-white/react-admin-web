@@ -7,12 +7,14 @@ import {
     Route,
     Redirect,
 } from "react-router-dom";
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import { ConfigProvider } from 'antd';
 import App from './App';
 import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import todoApp from './store/reducer/index.js';
-import Login from './component/login/Login';
+import Login from './page/login/Login';
 
 import 'antd/dist/antd.css';
 import './style/reset.scss';
@@ -24,15 +26,17 @@ let store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
-            <Switch>
-                <Route exact path="/" render={() => <Redirect to="/app/dashboard/index" push />} />
-                <Route path="/app">
-                    <App/>
-                </Route>
-                <Route path="/login" component={Login} />
-            </Switch>
-        </Router>
+        <ConfigProvider locale={zh_CN}>
+            <Router>
+                <Switch>
+                    <Route exact path="/" render={() => <Redirect to="/app/dashboard/index" push />} />
+                    <Route path="/app">
+                        <App/>
+                    </Route>
+                    <Route path="/login" component={Login} />
+                </Switch>
+            </Router>
+        </ConfigProvider>
     </Provider>,
     document.getElementById('root')
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 // import routesConfig from './config.js';
-import AllComponents from '../component';
+import AllComponents from '../page';
 
 class CRouter extends React.Component {
     requireAuth (roles, component) {

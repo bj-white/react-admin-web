@@ -1,6 +1,6 @@
 import React from 'react';
 import Route from './route';
-import SiderMenu from './component/SiderMenu';
+import SiderMenu from './page/SiderMenu';
 import { Breadcrumb } from 'antd';
 
 import './style/app.scss';
