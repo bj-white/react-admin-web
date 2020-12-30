@@ -8,7 +8,7 @@
     .app_header {
         height: 50px;
         line-height: 50px;
-        padding: 0 15px;
+        padding: 0 20px;
         background: #333;
         color: #fff;
         .logo {
@@ -85,18 +85,58 @@
             overflow: auto;
             .app_breadcrumb {
                 height: 50px;
-                padding: 0 15px;
+                padding: 0 20px;
                 background: #fff;
                 .ant-breadcrumb {
                     line-height: 50px;
                 }
             }
             .app_content {
-                margin: 15px 15px 0;
-                padding: 15px;
-                min-height: calc(100% - 125px);
-                & > div {
-                    background: #fff;
+                padding: 20px 20px 0;
+                min-height: calc(100% - 110px);
+                .admin_table {    
+                    .table_search {
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin-bottom: 20px;
+                        padding: 20px 20px 5px;
+                        border-radius: 6px;
+                        background: #fff;
+                        .search_item {
+                            display: flex;
+                            flex: 0 0 300px;
+                            margin-bottom: 15px;
+                            .item_l {
+                                flex: 0 0 80px;
+                                line-height: 32px;
+                                text-align: right;
+                            }
+                            .item_r {
+                                flex: 1;
+                                &.btn {
+                                    button {
+                                        margin-right: 10px;
+                                    }
+                                }
+                            }
+                        }
+                    }                
+                    .table_wrapper {
+                        padding: 20px;
+                        border-radius: 6px;
+                        background: #fff;
+                        .table_header {
+                            height: 32px;
+                            margin-bottom: 10px;
+                            & > ul {
+                                float: right;
+                                & > li {
+                                    margin-left: 10px;
+                                    float: left;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .app_footer {
