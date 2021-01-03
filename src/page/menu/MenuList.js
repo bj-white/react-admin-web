@@ -1,27 +1,30 @@
+import {Button, Form, Input, Modal, Space, TreeSelect, Popconfirm, message} from 'antd';
 import React from 'react';
-import {Space, Button, Input, Modal, Form, TreeSelect} from 'antd';
-import {getMenuTree1} from '../../api/menuApi.js';
+import {get, add, update, del} from '../../api/menuApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
-class RoleList extends React.Component {
+const renderTree = (data) => data.map((item) => {
+    if (item.children) {
+        return (
+            <TreeSelect.TreeNode value={item.id} title={item.name} key={item.id}>
+                {renderTree(item.children)}
+            </TreeSelect.TreeNode>
+        );
+    } else {
+        return (<TreeSelect.TreeNode value={item.id} title={item.name} key={item.id}/>);
+    }
+});
+
+class MenuList extends React.Component {
+    formRef = React.createRef();
     constructor (props) {
         super(props);
         this.state = {
-            dataList: [
-                /* {
-                    "createtime":1609119137000,"updatetime":1609119137000,"id":2,"name":"系统管理","parent_id":0,"url":"/app/system","component":"","sort":2,"icon":"icon iconfont iconshenhe","createby":1,"state":1,
-                    "children":[
-                        {
-                            "createtime":1609119137000,"updatetime":1609119137000,"id":3,"name":"用户管理","parent_id":2,"url":"/app/system/user","component":"UserList","sort":1,"icon":"icon iconfont iconfenlei","createby":1,"state":1,
-                        },
-                    ]
-                } */
-            ],
+            dataList: [],
             columns: [
                 {
                     title: '名称',
                     dataIndex: 'name',
-                    key: 'name',
                 },
                 {
                     title: 'url',
@@ -58,41 +61,77 @@ class RoleList extends React.Component {
                 },
                 {
                     title: '操作',
-                    render: () => (
+                    render: (text, record) => (
                         <Space>
-                            <Button type="link" size="small">新建</Button>
-                            <Button type="link" size="small">发布</Button>
-                            <Button type="link" size="small">删除</Button>
+                            <Button type="link" size="small" onClick={this.updateUI.bind(this, record)}>修改</Button>
+							<Popconfirm
+								title="确定要删除吗？"
+								onConfirm={this.del.bind(this, record)}
+							>
+								<Button type="link" size="small">删除</Button>
+							</Popconfirm>
                         </Space>
                     ),
                 },
             ],
-            isModalVisible: true,
+            isModalVisible: false,
         };
     }
-    getMenuTree () {
-        getMenuTree1().then((response) => {
+    get () {
+        get().then((response) => {
             this.setState({
                 dataList: response.data.data
             });
         });
     }
     componentDidMount () {
-        this.getMenuTree();
-    }
-    onChange (page, pageSize) {
-        console.log(page);
-        console.log(pageSize);
+        this.get();
     }
     handleModal (flag) {
         this.setState({
             isModalVisible: flag,
         });
+        if (!flag) {
+            this.formRef.current.resetFields();
+        }
     }
     shouldComponentUpdate (nextProps, nextState) {
-        if (nextState.isModalVisible != this.state.isModalVisible) {
-        }
         return true;
+    }
+    handleSubmit () {
+        this.formRef.current.validateFields().then((value) => {
+            console.log(value);
+            if (value.id == value.parent_id) {
+                return;
+            }
+            if (value.id) {
+                update(value).then(() => {
+                    this.get();
+                    this.handleModal(false);
+                });
+            } else {
+                add(value).then(() => {
+                    this.get();
+                    this.handleModal(false);
+                });
+            }
+        });
+    }
+    updateUI (row) {
+        this.handleModal(true);
+        setTimeout(() => {
+            this.formRef.current.setFieldsValue(row);
+        }, 0);
+    }
+	del (row) {
+        console.log(row);
+        if (row.children && row.children.length) {
+            message.error('请先删除子菜单');
+            return;
+        }
+        del(row.id).then(() => {
+			this.get();
+		});
     }
     render () {
         return (
@@ -121,48 +160,53 @@ class RoleList extends React.Component {
                     <CommonTable
                         dataSource={this.state.dataList}
                         columns={this.state.columns}
-                        pagination={{
-                            total: 22,
-                            defaultCurrent: 1,
-                            onChange: this.onChange.bind(this),
-                        }}
+                        pagination={false}
                         expandable={{defaultExpandAllRows: true}}
                         rowKey="id"/>
                 </div>
                 <Modal title="菜单"
                     visible={this.state.isModalVisible}
-                    onOk={this.handleModal.bind(this, false)}
+                    onOk={this.handleSubmit.bind(this)}
                     onCancel={this.handleModal.bind(this, false)}>
                     <Form
                         labelCol={{
                             span: 4
-                        }}>
-                        <Form.Item label="名称：" name="name" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        }}
+                        ref={this.formRef}>
+                        <Form.Item name="id" hidden={true}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="父菜单：" name="parent_id" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Form.Item label="名称：" name="name" rules={[{ required: true, message: '请选择' }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="父菜单：" name="parent_id" rules={[
+                            { required: true, message: '请选择' },
+                            {validator: (_, value) => {
+                                let id = this.formRef.current.getFieldsValue().id;
+                                if (id && id === value) {
+                                    return Promise.reject('子父菜单不能相同');
+                                }
+                                return Promise.resolve();
+                            }}]}>
                             <TreeSelect
-                                value={1}
-                                treeData={this.state.dataList}
-                                treeDataSimpleMode={{
-                                    title: "name",
-                                    pId: "parent_id",
-                                }}
-                                treeDefaultExpandAll/>
+                                allowClear
+                                treeDefaultExpandAll>
+                                {renderTree([{id: 0, name: '一级菜单', children: this.state.dataList}])}
+                            </TreeSelect>
                         </Form.Item>
-                        <Form.Item label="url：" name="url" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Form.Item label="url：" name="url" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="组件：" name="component" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Form.Item label="组件：" name="component" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="icon：" name="icon" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Form.Item label="icon：" name="icon" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="排序：" name="sort" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Form.Item label="排序：" name="sort" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="状态：" name="state" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Form.Item label="状态：" name="state" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
                     </Form>
@@ -172,4 +216,4 @@ class RoleList extends React.Component {
     }
 }
 
-export default RoleList;
+export default MenuList;

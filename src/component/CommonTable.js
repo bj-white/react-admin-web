@@ -6,12 +6,12 @@ const renderTable = (props) => (
         key={Math.random()}
         {...props}
         bordered
-        pagination={{
+        pagination={props.pagination ? {
             ...props.pagination,
             showSizeChanger: true,
             showQuickJumper: true,
             showTotal: (total) => (`共${total}条`),
-        }}
+        } : false}
         size="middle"/>
 );
 

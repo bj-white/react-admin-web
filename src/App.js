@@ -4,10 +4,13 @@ import SiderMenu from './page/SiderMenu';
 import { Breadcrumb } from 'antd';
 
 import './style/app.scss';
-export default class App extends React.Component {
-    state = {
-        collapsed: false,
-    };
+class App extends React.Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            collapsed: false,
+        };
+    }
 
     toggleCollapsed () {
         this.setState({
@@ -42,3 +45,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default App;
