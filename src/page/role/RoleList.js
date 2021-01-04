@@ -1,5 +1,6 @@
-import {Button, Form, Input, Modal, Space, Popconfirm} from 'antd';
+import {Button, Form, Input, Modal, Space, Popconfirm, Tree} from 'antd';
 import React from 'react';
+import {connect} from 'react-redux';
 import {get, add, update, del} from '../../api/roleApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
@@ -39,7 +40,7 @@ class MenuList extends React.Component {
                     render: (text, record) => (
                         <Space>
                             <Button type="link" size="small" onClick={this.updateUI.bind(this, record)}>修改</Button>
-                            <Button type="link" size="small">菜单管理</Button>
+                            <Button type="link" size="small" onClick={this.menuModel.bind(this, true)}>菜单管理</Button>
 							<Popconfirm
 								title="确定要删除吗？"
 								onConfirm={this.del.bind(this, record)}
@@ -51,6 +52,35 @@ class MenuList extends React.Component {
                 },
             ],
             isModalVisible: false,
+            menuVisible: true,
+            treeData: [
+                {
+                  title: 'parent 1',
+                  key: '0-0',
+                  children: [
+                    {
+                      title: 'parent 1-0',
+                      key: '0-0-0',
+                      children: [
+                        {
+                          title: 'leaf',
+                          key: '0-0-0-0',
+                        },
+                        {
+                          title: 'leaf',
+                          key: '0-0-0-1',
+                        },
+                      ],
+                    },
+                    {
+                      title: 'parent 1-1',
+                      key: '0-0-1',
+                      children: [
+                          { title: 'sss', key: '0-0-1-0' }],
+                    },
+                  ],
+                },
+              ]
         };
     }
     get () {
@@ -113,19 +143,30 @@ class MenuList extends React.Component {
             this.get();
         }, 0);
     }
+    handleChange (e) {
+        this.setState({
+            searchParams: {
+                name: e.target.value,
+            }
+        });
+    }
+    menuModel (flag) {
+        this.setState({
+            menuVisible: flag,
+        });
+    }
     render () {
         return (
             <div className="admin_table">
                 <div className="table_search">
                     <div className="search_item">
                         <div className="item_l">名称：</div>
-                        <div className="item_r"><Input placeholder="请输入名称"/></div>
+                        <div className="item_r"><Input value={this.state.searchParams.name} onChange={this.handleChange.bind(this)} placeholder="请输入名称"/></div>
                     </div>
                     <div className="search_item">
                         <div className="item_l"></div>
                         <div className="item_r btn">
-                            <Button type="primary">查询</Button>
-                            <Button type="primary">重置</Button>
+                            <Button type="primary" onClick={this.get.bind(this)}>查询</Button>
                         </div>
                     </div>
                 </div>
@@ -165,9 +206,22 @@ class MenuList extends React.Component {
                         </Form.Item>
                     </Form>
                 </Modal>                        
+                <Modal title="菜单"
+                    visible={this.state.menuVisible}
+                    onOk={this.handleSubmit.bind(this)}
+                    onCancel={this.menuModel.bind(this, false)}>
+                    <Tree
+                        treeData={this.props.menus}
+                        checkable={true}
+                        defaultExpandAll={true}
+                        checkStrictly={true}
+                    />
+                </Modal>                        
             </div>
         );
     }
 }
 
-export default MenuList;
+export default connect((state) => ({
+    menus: state.menuReducer,
+}))(MenuList);

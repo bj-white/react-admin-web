@@ -1,7 +1,9 @@
 import {Button, Form, Input, Modal, Space, TreeSelect, Popconfirm, message} from 'antd';
 import React from 'react';
-import {get, add, update, del} from '../../api/menuApi.js';
+import {connect} from 'react-redux';
+import {add, update, del} from '../../api/menuApi.js';
 import CommonTable from '../../component/CommonTable.js';
+import {getMenuTree} from '../../store/action/menuAction.js';
 
 const renderTree = (data) => data.map((item) => {
     if (item.children) {
@@ -20,7 +22,6 @@ class MenuList extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            dataList: [],
             columns: [
                 {
                     title: '名称',
@@ -78,14 +79,7 @@ class MenuList extends React.Component {
         };
     }
     get () {
-        get().then((response) => {
-            this.setState({
-                dataList: response.data.data
-            });
-        });
-    }
-    componentDidMount () {
-        this.get();
+        this.props.dispatch(getMenuTree());
     }
     handleModal (flag) {
         this.setState({
@@ -158,7 +152,7 @@ class MenuList extends React.Component {
                         </ul>
                     </div>
                     <CommonTable
-                        dataSource={this.state.dataList}
+                        dataSource={this.props.menus}
                         columns={this.state.columns}
                         pagination={false}
                         expandable={{defaultExpandAllRows: true}}
@@ -191,7 +185,7 @@ class MenuList extends React.Component {
                             <TreeSelect
                                 allowClear
                                 treeDefaultExpandAll>
-                                {renderTree([{id: 0, name: '一级菜单', children: this.state.dataList}])}
+                                {renderTree([{id: 0, name: '一级菜单', children: this.props.menus}])}
                             </TreeSelect>
                         </Form.Item>
                         <Form.Item label="url：" name="url" rules={[{ required: true, message: '请选择' }]}>
@@ -216,4 +210,6 @@ class MenuList extends React.Component {
     }
 }
 
-export default MenuList;
+export default connect((state) => ({
+    menus: state.menuReducer,
+}))(MenuList);

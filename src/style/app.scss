@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .app_wrapper {
     position: absolute;
     top: 0;
@@ -9,7 +11,7 @@
         height: 50px;
         line-height: 50px;
         padding: 0 20px;
-        background: #333;
+        background: $bw-bg;
         color: #fff;
         .logo {
             display: inline-block;
@@ -38,8 +40,8 @@
             top: 0;
             bottom: 0;
             left: 0;
-            width: 220px;
-            background: #fff;
+            width: 200px;
+            background: $bw-bg;
             .app_menu_top {
                 position: absolute;
                 top: 0;
@@ -53,6 +55,18 @@
                         margin-right: 5px;
                     }
                 } */
+                .ant-menu {
+                    background: transparent;
+                    color: #fff;
+                    a, .ant-menu-submenu-selected {
+                        color: #fff;
+                    }
+                    .ant-menu-item-selected,
+                    .ant-menu-item-active {
+                        background: lighten($bw-bg, 24%);
+                        color: #fff;
+                    }
+                }
             }
             .app_menu_bottom {
                 position: absolute;
@@ -63,7 +77,7 @@
                 line-height: 50px;
                 text-align: center;
                 cursor: pointer;
-                background: #000;
+                background: lighten($bw-bg, 24%);
                 color: #fff;
                 i {
                     display: inline-block;
@@ -81,7 +95,7 @@
             top: 0;
             right: 0;
             bottom: 0;
-            left: 220px;
+            left: 200px;
             overflow: auto;
             .app_breadcrumb {
                 height: 50px;
