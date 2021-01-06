@@ -16,8 +16,7 @@ import { createStore, applyMiddleware } from 'redux';
 import todoApp from './store/reducer/index.js';
 import Login from './page/login/Login';
 
-import 'antd/dist/antd.css';
-import './style/reset.scss';
+import './style/index.less';
 
 let store = createStore(
     todoApp,

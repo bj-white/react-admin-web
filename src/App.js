@@ -3,7 +3,6 @@ import Route from './route';
 import SiderMenu from './page/SiderMenu';
 import { Breadcrumb } from 'antd';
 
-import './style/app.scss';
 class App extends React.Component {
     constructor (props) {
         super(props);
