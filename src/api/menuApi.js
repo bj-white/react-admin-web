@@ -2,8 +2,8 @@ import request from '../util/request.js';
 
 export function get () {
     return request({
-        //url: '../../route/config.json',
-        url: '/menu/getMenuTree.do',
+        url: '../../route/config.json',
+        // url: '/menu/getMenuTree.do',
     });
 }
 

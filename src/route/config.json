@@ -5,8 +5,7 @@
             "name": "首页",
             "icon": "icon iconfont iconshenhe",
             "component": "Dashboard",
-            "roles": ["admin"],
-            "children": []
+            "roles": ["admin"]
         },
         {
             "url": "/app/system",
@@ -18,16 +17,14 @@
                     "name": "用户管理",
                     "icon": "icon iconfont iconfenlei",
                     "component": "UserList",
-                    "roles": ["student"],
-                    "children": []
+                    "roles": ["student"]
                 },
                 {
                     "url": "/app/system/role",
                     "name": "角色管理",
                     "icon": "icon iconfont iconxitongguanli",
                     "component": "RoleList",
-                    "roles": ["admin"],
-                    "children": []
+                    "roles": ["admin"]
                 }
             ]
         }
