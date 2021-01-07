@@ -66,6 +66,7 @@ class SiderBar extends React.Component {
                     <Menu
                         onClick={this.menuClick.bind(this)}
                         mode="inline"
+                        theme="dark"
                         selectedKeys={[this.state.selectedKey]}
                         openKeys={this.state.openKey}
                         onOpenChange={this.openMenu.bind(this)}

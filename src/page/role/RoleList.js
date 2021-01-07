@@ -4,6 +4,20 @@ import {connect} from 'react-redux';
 import {get, add, update, del} from '../../api/roleApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
+const renderTree = (menus) => menus.map((menu) => {
+    if (menu.children && menu.children.length) {
+        return (
+            <Tree.TreeNode key={menu.id} title={menu.name}>
+                {renderTree(menu.children)}
+            </Tree.TreeNode>
+        );
+    } else {
+        return (
+            <Tree.TreeNode key={menu.id} title={menu.name}></Tree.TreeNode>
+        );
+    }
+});
+
 class MenuList extends React.Component {
     formRef = React.createRef();
     constructor (props) {
@@ -53,34 +67,6 @@ class MenuList extends React.Component {
             ],
             isModalVisible: false,
             menuVisible: true,
-            treeData: [
-                {
-                  title: 'parent 1',
-                  key: '0-0',
-                  children: [
-                    {
-                      title: 'parent 1-0',
-                      key: '0-0-0',
-                      children: [
-                        {
-                          title: 'leaf',
-                          key: '0-0-0-0',
-                        },
-                        {
-                          title: 'leaf',
-                          key: '0-0-0-1',
-                        },
-                      ],
-                    },
-                    {
-                      title: 'parent 1-1',
-                      key: '0-0-1',
-                      children: [
-                          { title: 'sss', key: '0-0-1-0' }],
-                    },
-                  ],
-                },
-              ]
         };
     }
     get () {
@@ -155,6 +141,9 @@ class MenuList extends React.Component {
             menuVisible: flag,
         });
     }
+    handleCheck (selectedKeys) {
+        console.log(selectedKeys);
+    }
     render () {
         return (
             <div className="admin_table">
@@ -208,14 +197,16 @@ class MenuList extends React.Component {
                 </Modal>                        
                 <Modal title="菜单"
                     visible={this.state.menuVisible}
-                    onOk={this.handleSubmit.bind(this)}
                     onCancel={this.menuModel.bind(this, false)}>
                     <Tree
-                        treeData={this.props.menus}
+                        /* treeData={this.props.menus} */
                         checkable={true}
                         defaultExpandAll={true}
                         checkStrictly={true}
-                    />
+                        onCheck={this.handleCheck.bind(this)}
+                    >
+                        {renderTree(this.props.menus)}
+                    </Tree>
                 </Modal>                        
             </div>
         );

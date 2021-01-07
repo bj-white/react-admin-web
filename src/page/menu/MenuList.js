@@ -130,19 +130,6 @@ class MenuList extends React.Component {
     render () {
         return (
             <div className="admin_table">
-                <div className="table_search">
-                    <div className="search_item">
-                        <div className="item_l">名称：</div>
-                        <div className="item_r"><Input placeholder="请输入名称"/></div>
-                    </div>
-                    <div className="search_item">
-                        <div className="item_l"></div>
-                        <div className="item_r btn">
-                            <Button type="primary">查询</Button>
-                            <Button type="primary">重置</Button>
-                        </div>
-                    </div>
-                </div>
                 <div className="table_wrapper">
                     <div className="table_header">
                         <ul>
