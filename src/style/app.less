@@ -9,7 +9,7 @@
         height: 50px;
         line-height: 50px;
         padding: 0 20px;
-        background: @bw-bg;
+        background: @layout-header-background;
         color: #fff;
         .logo {
             display: inline-block;
@@ -39,7 +39,7 @@
             bottom: 0;
             left: 0;
             width: 200px;
-            background: @bw-bg;
+            background: @layout-header-background;
             .app_menu_top {
                 position: absolute;
                 top: 0;
@@ -75,7 +75,7 @@
                 line-height: 50px;
                 text-align: center;
                 cursor: pointer;
-                background: lighten(@bw-bg, 10%);
+                background: lighten(@layout-header-background, 25%);
                 color: #fff;
                 i {
                     display: inline-block;
@@ -105,7 +105,7 @@
             }
             .app_content {
                 padding: 20px 20px 0;
-                min-height: calc(100% - 110px);
+                min-height: calc(~"100% - 110px");
                 .admin_table {    
                     .table_search {
                         display: flex;
