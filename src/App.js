@@ -37,7 +37,7 @@ class App extends React.Component {
                         <div className="app_content">
                             <Route/>
                         </div>
-                        <div className="app_footer">this is aa footer.</div>
+                        <div className="app_footer">this is a footer.</div>
                     </div>
                 </div>
             </div>
