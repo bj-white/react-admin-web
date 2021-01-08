@@ -41,5 +41,6 @@ export default {
     UserList: asyncComponent(() => import('./user/UserList')),
     RoleList: asyncComponent(() => import('./role/RoleList')),
     MenuList: asyncComponent(() => import('./menu/MenuList')),
+    PermissionList: asyncComponent(() => import('./permission/PermissionList')),
     Login: asyncComponent(() => import('./login/Login')),
 };

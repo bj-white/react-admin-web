@@ -19,11 +19,18 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.less$/,
+                test: /\.css|.less$/,
                 use: [
                     'style-loader',
                     'css-loader',
-                    'less-loader',
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true,
+                            }
+                        }
+                    }
                 ],
             },
             /* {

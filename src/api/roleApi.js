@@ -31,3 +31,23 @@ export function del (id) {
 		}
     });
 }
+
+export function getMenuIdByRole (id) {
+    return request({
+        url: '/role/getMenuIdByRole.do',
+        params: {
+			id: id
+		}
+    });
+}
+
+export function setMenuIdByRole (params) {
+    return request({
+        url: '/role/setMenuIdByRole.do',
+        method: 'post',
+        data: {
+            id: params.id,
+            menus: params.menus,
+		}
+    });
+}

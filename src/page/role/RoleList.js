@@ -1,7 +1,7 @@
 import {Button, Form, Input, Modal, Space, Popconfirm, Tree} from 'antd';
 import React from 'react';
 import {connect} from 'react-redux';
-import {get, add, update, del} from '../../api/roleApi.js';
+import {get, add, update, del, getMenuIdByRole, setMenuIdByRole} from '../../api/roleApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
 const renderTree = (menus) => menus.map((menu) => {
@@ -20,6 +20,7 @@ const renderTree = (menus) => menus.map((menu) => {
 
 class MenuList extends React.Component {
     formRef = React.createRef();
+    tempId = '';
     constructor (props) {
         super(props);
         this.state = {
@@ -54,7 +55,7 @@ class MenuList extends React.Component {
                     render: (text, record) => (
                         <Space>
                             <Button type="link" size="small" onClick={this.updateUI.bind(this, record)}>修改</Button>
-                            <Button type="link" size="small" onClick={this.menuModel.bind(this, true)}>菜单管理</Button>
+                            <Button type="link" size="small" onClick={this.editMenu.bind(this, record)}>菜单管理</Button>
 							<Popconfirm
 								title="确定要删除吗？"
 								onConfirm={this.del.bind(this, record)}
@@ -66,7 +67,8 @@ class MenuList extends React.Component {
                 },
             ],
             isModalVisible: false,
-            menuVisible: true,
+            menuVisible: false,
+            checkedKeys: [],
         };
     }
     get () {
@@ -136,13 +138,29 @@ class MenuList extends React.Component {
             }
         });
     }
+    editMenu (record) {
+        this.tempId = record.id;
+        getMenuIdByRole(record.id).then((response) => {
+            this.setState({
+                checkedKeys: response.data.data,
+            });
+            this.menuModel(true);
+        });
+    }
     menuModel (flag) {
         this.setState({
             menuVisible: flag,
         });
     }
-    handleCheck (selectedKeys) {
-        console.log(selectedKeys);
+    handleCheck (checkedKeys) {
+        this.setState({
+            checkedKeys: checkedKeys.checked,
+        });
+    }
+    menuSubmit () {
+        setMenuIdByRole({id: this.tempId, menus: this.state.checkedKeys}).then(() => {
+            this.menuModel(false);
+        });
     }
     render () {
         return (
@@ -197,10 +215,12 @@ class MenuList extends React.Component {
                 </Modal>                        
                 <Modal title="菜单"
                     visible={this.state.menuVisible}
+                    onOk={this.menuSubmit.bind(this)}
                     onCancel={this.menuModel.bind(this, false)}>
                     <Tree
                         /* treeData={this.props.menus} */
                         checkable={true}
+                        checkedKeys={this.state.checkedKeys}
                         defaultExpandAll={true}
                         checkStrictly={true}
                         onCheck={this.handleCheck.bind(this)}
