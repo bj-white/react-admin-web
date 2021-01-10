@@ -4,7 +4,7 @@ import qs from 'qs';
 const request = axios.create({
     baseURL: '/api',
     transformRequest: [function (data, headers) {
-        return qs.stringify(data);
+        return qs.stringify(data, {arrayFormat: 'brackets'});
     }],
 });
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// var echarts = require('echarts');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/bar';
 

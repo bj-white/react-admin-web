@@ -26,22 +26,27 @@ class MenuList extends React.Component {
                 {
                     title: '名称',
                     dataIndex: 'name',
+                    width: '500px'
                 },
                 {
                     title: 'url',
                     dataIndex: 'url',
+                    width: '500px'
                 },
                 {
                     title: '组件',
                     dataIndex: 'component',
+                    width: '500px'
                 },
                 {
                     title: 'icon',
                     dataIndex: 'icon',
+                    width: '500px'
                 },
                 {
                     title: '排序',
                     dataIndex: 'sort',
+                    width: '500px'
                 },
                 {
                     title: '创建者',
