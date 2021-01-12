@@ -1,6 +1,6 @@
-import {Button, Form, Input, Modal, Space, Popconfirm, Tree} from 'antd';
 import React from 'react';
 import {connect} from 'react-redux';
+import {Button, Form, Input, Modal, Space, Popconfirm, Tree} from 'antd';
 import {get, add, update, del, getMenuIdByRole, setMenuIdByRole} from '../../api/roleApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
@@ -56,6 +56,7 @@ class MenuList extends React.Component {
                         <Space>
                             <Button type="link" size="small" onClick={this.updateUI.bind(this, record)}>修改</Button>
                             <Button type="link" size="small" onClick={this.editMenu.bind(this, record)}>菜单管理</Button>
+                            <Button type="link" size="small">权限管理</Button>
 							<Popconfirm
 								title="确定要删除吗？"
 								onConfirm={this.del.bind(this, record)}

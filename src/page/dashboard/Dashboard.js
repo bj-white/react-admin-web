@@ -4,15 +4,20 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/bar';
 
 class Dashboard extends React.Component {
+    myChart;
+    constructor (props) {
+        super(props);
+        this.onResize = this.onResize.bind(this);
+    }
 	componentDidMount() {
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('mains'));
+        this.myChart = echarts.init(document.getElementById('mains'));
         // 绘制图表
-        myChart.setOption({
+        this.myChart.setOption({
             title: { text: 'ECharts 入门示例' },
             tooltip: {},
             xAxis: {
-                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                data: ["足球", "篮球", "乒乓球", "羽毛球", "网球", "橄榄球"]
             },
             yAxis: {},
             series: [{
@@ -21,6 +26,15 @@ class Dashboard extends React.Component {
                 data: [5, 20, 36, 10, 10, 20]
             }]
         });
+
+        window.addEventListener('resize', this.onResize);
+    }
+    onResize () {
+        console.log('resize...');
+        this.myChart.resize();
+    }
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.onResize);
     }
     render() {
         return (
