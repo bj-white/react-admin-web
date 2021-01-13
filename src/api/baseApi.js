@@ -1,4 +1,5 @@
 import request from '../util/request.js';
+import qs from 'qs';
 
 export function get (params, flag) {
     return request({
@@ -19,6 +20,9 @@ export function update (params, flag) {
     return request({
         url: '/' + flag + '/update.do',
         method: 'post',
+        /* transformRequest: [function (data) {
+            return qs.stringify(data, {arrayFormat: 'indices', allowDots: true});
+        }], */
         data: params
     });
 }

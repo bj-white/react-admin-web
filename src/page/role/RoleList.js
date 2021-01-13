@@ -159,7 +159,11 @@ class MenuList extends React.Component {
         });
     }
     menuSubmit () {
-        setMenuIdByRole({id: this.tempId, menus: this.state.checkedKeys}).then(() => {
+        setMenuIdByRole({
+            id: this.tempId,
+            menus: this.state.checkedKeys,
+            qsOption: {arrayFormat: 'repeat'},
+        }).then(() => {
             this.menuModel(false);
         });
     }

@@ -106,24 +106,35 @@ export default class UserList extends React.Component {
         }
     }
     handleSubmit () {
+        // roles[0].name: name0
+        // roles[0][name]: name0
+        // roles[][name]: name0
         this.formRef.current.validateFields().then((value) => {
-            value['roles[0].id'] = 0;
+            /* value['roles[0].id'] = 0;
             value['roles[0].name'] = 'name0';
             value['roles[1].id'] = 1;
-            value['roles[1].name'] = 'name1';
+            value['roles[1].name'] = 'name1'; */
+            value.roles = [
+                {id: 0, name: 'name0'},
+                {id: 1, name: 'name1'}
+            ];
+            value.qsOption = {
+                arrayFormat: 'indices',
+                allowDots: true
+            };
             if (value.id) {
-                /* update(value, 'user').then(() => {
+                update(value, 'user').then(() => {
                     this.get();
                     this.handleModal(false);
-                }); */
-                $.ajax({
+                });
+                /* $.ajax({
                     url: '/api/user/update.do',
                     type: 'post',
                     data: value,
                     success: function () {
 
                     }
-                });
+                }); */
             } else {
                 add(value, 'user').then(() => {
                     this.get();

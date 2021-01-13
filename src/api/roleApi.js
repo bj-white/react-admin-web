@@ -1,4 +1,5 @@
 import request from '../util/request.js';
+import qs from 'qs';
 
 export function get (params) {
     return request({
@@ -41,13 +42,15 @@ export function getMenuIdByRole (id) {
     });
 }
 
+// repeat id=8&menus=3&menus=4
+// brackets menus[]: 3
+// comma menus: 3,4
+// indices menus[0]: 3
+// default menus[0]: 3
 export function setMenuIdByRole (params) {
     return request({
         url: '/role/setMenuIdByRole.do',
         method: 'post',
-        data: {
-            id: params.id,
-            menus: params.menus,
-		}
+        data: params
     });
 }
