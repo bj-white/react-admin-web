@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {debounce} from '../../util/common.js';
+import {login} from '../../api/userApi.js';
 
 class Login extends React.Component {
     constructor (props) {
@@ -8,13 +9,16 @@ class Login extends React.Component {
         this.handleSubmit = debounce(this.handleSubmit);
     }
     handleSubmit () {
-        this.props.dispatch({type: 'SET_USER', user: {
+        /* this.props.dispatch({type: 'SET_USER', user: {
             username: 'zhangsan',
             age: 18,
             realname: 'white',
             role: 'admin'
         }});
-        this.props.history.push('/');
+        this.props.history.push('/'); */
+        login({name: 's'}).then((response) => {
+            console.log(response);
+        });
     }
     render () {
         return (

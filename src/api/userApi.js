@@ -31,3 +31,11 @@ export function del (id) {
 		}
     });
 }
+
+export function login (params) {
+    return request({
+        url: '/user/login.do',
+        method: 'post',
+        data: params
+    });
+}
