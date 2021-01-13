@@ -106,18 +106,13 @@ export default class UserList extends React.Component {
         }
     }
     handleSubmit () {
-        // roles[0].name: name0
-        // roles[0][name]: name0
-        // roles[][name]: name0
         this.formRef.current.validateFields().then((value) => {
-            /* value['roles[0].id'] = 0;
-            value['roles[0].name'] = 'name0';
-            value['roles[1].id'] = 1;
-            value['roles[1].name'] = 'name1'; */
-            value.roles = [
-                {id: 0, name: 'name0'},
-                {id: 1, name: 'name1'}
-            ];
+            value.roles =[];
+            value.rids.forEach((id) => {
+                value.roles.push({
+                    id: id,
+                });
+            });
             value.qsOption = {
                 arrayFormat: 'indices',
                 allowDots: true

@@ -47,9 +47,9 @@ export function getMenuIdByRole (id) {
 // comma menus: 3,4
 // indices menus[0]: 3
 // default menus[0]: 3
-export function setMenuIdByRole (params) {
+export function addMenuRole (params) {
     return request({
-        url: '/role/setMenuIdByRole.do',
+        url: '/role/addMenuRole.do',
         method: 'post',
         data: params
     });

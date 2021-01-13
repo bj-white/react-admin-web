@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Input, Modal, Space, Popconfirm, Tree} from 'antd';
-import {get, add, update, del, getMenuIdByRole, setMenuIdByRole} from '../../api/roleApi.js';
+import {get, add, update, del, getMenuIdByRole, addMenuRole} from '../../api/roleApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
 const renderTree = (menus) => menus.map((menu) => {
@@ -159,7 +159,7 @@ class MenuList extends React.Component {
         });
     }
     menuSubmit () {
-        setMenuIdByRole({
+        addMenuRole({
             id: this.tempId,
             menus: this.state.checkedKeys,
             qsOption: {arrayFormat: 'repeat'},
