@@ -1,5 +1,7 @@
 import React from 'react';
+import {message} from 'antd';
 import {connect} from 'react-redux';
+import Cookie from 'js-cookie';
 import {debounce} from '../../util/common.js';
 import {login} from '../../api/userApi.js';
 
@@ -25,6 +27,12 @@ class Login extends React.Component {
             password: this.state.password,
         }).then((response) => {
             console.log(response);
+            if (response.data.status == 1) {
+                Cookie.set('token', response.data.data);
+                this.props.history.push('/');
+            } else {
+                message.error(response.data.msg);
+            }
         });
     }
     usercodeChange (e) {

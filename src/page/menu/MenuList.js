@@ -26,27 +26,22 @@ class MenuList extends React.Component {
                 {
                     title: '名称',
                     dataIndex: 'name',
-                    width: '500px'
                 },
                 {
                     title: 'url',
                     dataIndex: 'url',
-                    width: '500px'
                 },
                 {
                     title: '组件',
                     dataIndex: 'component',
-                    width: '500px'
                 },
                 {
                     title: 'icon',
                     dataIndex: 'icon',
-                    width: '500px'
                 },
                 {
                     title: '排序',
                     dataIndex: 'sort',
-                    width: '500px'
                 },
                 {
                     title: '创建者',
@@ -63,7 +58,7 @@ class MenuList extends React.Component {
                 {
                     title: '状态',
                     dataIndex: 'state',
-                    render: state => (<span>{state == 1 ? '开启' : '关闭'}</span>)
+                    render: state => (<span>{state == 1 ? '开启' : '关闭'}</span>),
                 },
                 {
                     title: '操作',
@@ -183,7 +178,7 @@ class MenuList extends React.Component {
                         <Form.Item label="url：" name="url" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="组件：" name="component" rules={[{ required: true, message: '请选择' }]}>
+                        <Form.Item label="组件：" name="component">
                             <Input />
                         </Form.Item>
                         <Form.Item label="icon：" name="icon" rules={[{ required: true, message: '请选择' }]}>

@@ -1,5 +1,4 @@
 import request from '../util/request.js';
-import qs from 'qs';
 
 export function get (params) {
     return request({

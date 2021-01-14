@@ -4,7 +4,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: #f5f5f5;
+    background: @body-bg;
     overflow: hidden;
     .app_header {
         height: 50px;
@@ -97,9 +97,19 @@
             left: 200px;
             overflow: auto;
             .app_breadcrumb {
+                position: relative;
                 height: 50px;
-                padding: 0 20px;
+                padding: 0 20px 0 40px;
                 background: #fff;
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    border: 14px solid darken(@body-bg, 5%);
+                    border-top-color: @body-bg;
+                    border-left-color: @body-bg;
+                }
                 .ant-breadcrumb {
                     line-height: 50px;
                 }

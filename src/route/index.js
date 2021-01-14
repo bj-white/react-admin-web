@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
+import Cookie from 'js-cookie';
 // import routesConfig from './config.js';
 import AllComponents from '../page';
 
@@ -12,12 +13,17 @@ class CRouter extends React.Component {
         }
         return component;
     }
-    requireLogin (component, roles) {
-        const {auth} = this.props;
+    requireLogin (component) {
+        /* const {auth} = this.props;
         if (!auth.role) {
             return <Redirect to={'/login'} />;
         }
-        return roles ? this.requireAuth (roles, component) : component;
+        return roles ? this.requireAuth (roles, component) : component; */
+        var token = Cookie.get('token');
+        if (!token) {
+            return <Redirect to={'/login'} />;
+        }
+        return component;
     }
     render () {
         const {routesConfig} = this.props;
@@ -34,7 +40,7 @@ class CRouter extends React.Component {
                                     path={r.url}
                                     render={props => {
                                         // return r.login ? <Component/> : this.requireLogin(<Component/>, r.roles);
-                                        return <Component/>;
+                                        return this.requireLogin(<Component/>);
                                     }}
                                 />
                             );
