@@ -14,4 +14,10 @@ const request = axios.create({
     }],
 });
 
+request.interceptors.request.use((config) => {
+    config.headers.common['X-Token'] = 'hello world';
+
+    return config;
+});
+
 export default request;
