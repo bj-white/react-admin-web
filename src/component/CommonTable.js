@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table} from 'antd';
+import { Table } from 'antd';
 
 const renderTable = (props) => (
     <Table
@@ -12,7 +12,8 @@ const renderTable = (props) => (
             showQuickJumper: true,
             showTotal: (total) => (`共${total}条`),
         } : false}
-        size="middle"/>
+        size="middle"
+    />
 );
 
 export default class CommonTable extends React.Component {

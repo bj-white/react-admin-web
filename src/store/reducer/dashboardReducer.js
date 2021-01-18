@@ -1,3 +1,3 @@
-export default function dashboardReducer (state = {}, action) {
+export default function dashboardReducer (state = {}) {
 	return state;
 }

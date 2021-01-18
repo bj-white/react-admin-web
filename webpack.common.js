@@ -9,6 +9,7 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
     },
     plugins: [
         new CleanWebpackPlugin(),
@@ -43,7 +44,18 @@ module.exports = {
             }, */
             {
                 test: /\.js|jsx$/,
-                use: 'babel-loader',
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {}
+                    },
+                    {
+                        loader: 'eslint-loader',
+                        options: {
+                            enforce: "pre",
+                        },
+                    }
+                ],
                 exclude: /node_modules/,
             },
             {

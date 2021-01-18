@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import echarts from 'echarts/lib/echarts';
+import * as echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/bar';
 
 class Dashboard extends React.Component {
-    myChart;
     constructor (props) {
         super(props);
+        this.myChart = null;
         this.onResize = this.onResize.bind(this);
     }
+
 	componentDidMount() {
         // 基于准备好的dom，初始化echarts实例
         this.myChart = echarts.init(document.getElementById('mains'));
@@ -17,7 +18,7 @@ class Dashboard extends React.Component {
             title: { text: 'ECharts 入门示例' },
             tooltip: {},
             xAxis: {
-                data: ["足球", "篮球", "乒乓球", "羽毛球", "网球", "橄榄球"]
+                data: ['足球', '篮球', '乒乓球', '羽毛球', '网球', '橄榄球']
             },
             yAxis: {},
             series: [{
@@ -29,16 +30,19 @@ class Dashboard extends React.Component {
 
         window.addEventListener('resize', this.onResize);
     }
+
     onResize () {
         console.log('resize...');
         this.myChart.resize();
     }
+
     componentWillUnmount () {
         window.removeEventListener('resize', this.onResize);
     }
+
     render() {
         return (
-            <div id="mains" style={{ width: '100%', height: 400 }}></div>
+            <div id="mains" style={{ width: '100%', height: 400 }}/>
         );
     }
 }

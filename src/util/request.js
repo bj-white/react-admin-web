@@ -6,12 +6,11 @@ const request = axios.create({
     baseURL: '/api',
     transformRequest: [function (data) {
         if (data && data.qsOption) {
-            var qsOption = JSON.parse(JSON.stringify(data.qsOption));
+            const qsOption = JSON.parse(JSON.stringify(data.qsOption));
             delete data.qsOption;
             return qs.stringify(data, qsOption);
-        } else {
-            return qs.stringify(data);
         }
+        return qs.stringify(data);
     }],
 });
 
@@ -21,18 +20,16 @@ request.interceptors.request.use((config) => {
     return config;
 });
 
-request.interceptors.response.use((response) => {
-    return response;
-}, (error) => {
+request.interceptors.response.use((response) => response, (error) => {
     /**
      * 200: success
      * 501: error 有msg
      * 502: 没有登录或登录过期
      * 504: 没有权限
      */
-    var status = error.response.status;
-    if (status == 502) {
-        window.location.href = '/#/login';
+    const { status } = error.response;
+    if (status === 502) {
+        window.location.href = '/login';
     }
     return Promise.reject(error);
 });

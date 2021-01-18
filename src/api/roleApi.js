@@ -27,7 +27,7 @@ export function del (id) {
     return request({
         url: '/role/delete.do',
         params: {
-			id: id
+			id
 		}
     });
 }
@@ -36,7 +36,7 @@ export function getMenuIdByRole (id) {
     return request({
         url: '/role/getMenuIdByRole.do',
         params: {
-			id: id
+			id
 		}
     });
 }

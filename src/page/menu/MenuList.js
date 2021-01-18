@@ -1,9 +1,18 @@
-import {Button, Form, Input, Modal, Space, TreeSelect, Popconfirm, message} from 'antd';
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Space,
+    TreeSelect,
+    Popconfirm,
+    message
+} from 'antd';
 import React from 'react';
-import {connect} from 'react-redux';
-import {add, update, del} from '../../api/menuApi.js';
+import { connect } from 'react-redux';
+import { add, update, del } from '../../api/menuApi.js';
 import CommonTable from '../../component/CommonTable.js';
-import {getMenuTree} from '../../store/action/menuAction.js';
+import getMenuTree from '../../store/action/menuAction.js';
 
 const renderTree = (data) => data.map((item) => {
     if (item.children) {
@@ -12,15 +21,14 @@ const renderTree = (data) => data.map((item) => {
                 {renderTree(item.children)}
             </TreeSelect.TreeNode>
         );
-    } else {
-        return (<TreeSelect.TreeNode value={item.id} title={item.name} key={item.id}/>);
     }
+    return (<TreeSelect.TreeNode value={item.id} title={item.name} key={item.id}/>);
 });
 
 class MenuList extends React.Component {
-    formRef = React.createRef();
     constructor (props) {
         super(props);
+        this.formRef = React.createRef();
         this.state = {
             columns: [
                 {
@@ -58,7 +66,7 @@ class MenuList extends React.Component {
                 {
                     title: '状态',
                     dataIndex: 'state',
-                    render: state => (<span>{state == 1 ? '开启' : '关闭'}</span>),
+                    render: (state) => (<span>{state === 1 ? '开启' : '关闭'}</span>),
                 },
                 {
                     title: '操作',
@@ -78,9 +86,11 @@ class MenuList extends React.Component {
             isModalVisible: false,
         };
     }
+
     get () {
         this.props.dispatch(getMenuTree());
     }
+
     handleModal (flag) {
         this.setState({
             isModalVisible: flag,
@@ -89,13 +99,15 @@ class MenuList extends React.Component {
             this.formRef.current.resetFields();
         }
     }
-    shouldComponentUpdate (nextProps, nextState) {
+
+    shouldComponentUpdate () {
         return true;
     }
+
     handleSubmit () {
         this.formRef.current.validateFields().then((value) => {
             console.log(value);
-            if (value.id == value.parent_id) {
+            if (value.id === value.parent_id) {
                 return;
             }
             if (value.id) {
@@ -111,12 +123,14 @@ class MenuList extends React.Component {
             }
         });
     }
+
     updateUI (row) {
         this.handleModal(true);
         setTimeout(() => {
             this.formRef.current.setFieldsValue(row);
         }, 0);
     }
+
 	del (row) {
         console.log(row);
         if (row.children && row.children.length) {
@@ -127,6 +141,7 @@ class MenuList extends React.Component {
 			this.get();
 		});
     }
+
     render () {
         return (
             <div className="admin_table">
@@ -142,37 +157,49 @@ class MenuList extends React.Component {
                         dataSource={this.props.menus}
                         columns={this.state.columns}
                         pagination={false}
-                        expandable={{defaultExpandAllRows: true}}
-                        rowKey="id"/>
+                        expandable={{ defaultExpandAllRows: true }}
+                        rowKey="id"
+                    />
                 </div>
-                <Modal title="菜单"
+                <Modal
+                    title="菜单"
                     visible={this.state.isModalVisible}
                     onOk={this.handleSubmit.bind(this)}
-                    onCancel={this.handleModal.bind(this, false)}>
+                    onCancel={this.handleModal.bind(this, false)}
+                >
                     <Form
                         labelCol={{
                             span: 4
                         }}
-                        ref={this.formRef}>
+                        ref={this.formRef}
+                    >
                         <Form.Item name="id" hidden={true}>
                             <Input />
                         </Form.Item>
                         <Form.Item label="名称：" name="name" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="父菜单：" name="parent_id" rules={[
-                            { required: true, message: '请选择' },
-                            {validator: (_, value) => {
-                                let id = this.formRef.current.getFieldsValue().id;
-                                if (id && id === value) {
-                                    return Promise.reject('子父菜单不能相同');
+                        <Form.Item
+                            label="父菜单："
+                            name="parent_id"
+                            rules={[
+                                { required: true, message: '请选择' },
+                                {
+                                    validator: (_, value) => {
+                                        const { id } = this.formRef.current.getFieldsValue();
+                                        if (id && id === value) {
+                                            return Promise.reject(new Error('子父菜单不能相同'));
+                                        }
+                                        return Promise.resolve();
+                                    }
                                 }
-                                return Promise.resolve();
-                            }}]}>
+                            ]}
+                        >
                             <TreeSelect
                                 allowClear
-                                treeDefaultExpandAll>
-                                {renderTree([{id: 0, name: '一级菜单', children: this.props.menus}])}
+                                treeDefaultExpandAll
+                            >
+                                {renderTree([{ id: 0, name: '一级菜单', children: this.props.menus }])}
                             </TreeSelect>
                         </Form.Item>
                         <Form.Item label="url：" name="url" rules={[{ required: true, message: '请选择' }]}>
@@ -191,7 +218,7 @@ class MenuList extends React.Component {
                             <Input />
                         </Form.Item>
                     </Form>
-                </Modal>                        
+                </Modal>
             </div>
         );
     }

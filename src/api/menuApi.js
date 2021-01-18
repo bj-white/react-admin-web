@@ -2,7 +2,7 @@ import request from '../util/request.js';
 
 export function get () {
     return request({
-        //url: '../../route/config.json',
+        // url: '../../route/config.json',
         url: '/menu/getMenuTree.do',
     });
 }
@@ -27,7 +27,7 @@ export function del (id) {
     return request({
         url: '/menu/delete.do',
         params: {
-			id: id
+			id
 		}
     });
 }

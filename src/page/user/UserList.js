@@ -1,13 +1,16 @@
 import React from 'react';
-import {Button, Space, Popconfirm, Modal, Form, Input, Select} from 'antd';
+import {
+    Button, Space, Popconfirm, Modal, Form, Input, Select
+} from 'antd';
 import CommonTable from '../../component/CommonTable.js';
-import {get, add, update, del} from '../../api/baseApi.js';
-import $ from 'jquery';
+import {
+    get, add, update, del
+} from '../../api/baseApi.js';
 
 export default class UserList extends React.Component {
-    formRef = React.createRef();
     constructor (props) {
         super(props);
+        this.formRef = React.createRef();
         this.state = {
             listData: {
                 count: 0,
@@ -59,42 +62,11 @@ export default class UserList extends React.Component {
             roleList: null
         };
     }
-    get () {
-        get({
-            page: this.state.current,
-            rows: this.state.pageSize,
-        }, 'user').then((response) => {
-            this.setState({
-                listData: response.data.data
-            });
-        });
-    }
+
     componentDidMount () {
         this.get();
     }
-    updateUI (row) {
-        this.handleModal(true);
-        let arr = [];
-        row.roles.forEach((item) => {
-            arr.push(item.id);
-        });
-        row.rids = arr;
-        setTimeout(() => {
-            this.formRef.current.setFieldsValue(row);
-        }, 0);
-    }
-    getRoleList () {
-        if (!this.state.roleList) {
-            get({
-                page: this.state.current,
-                rows: this.state.pageSize,
-            }, 'role').then((response) => {
-                this.setState({
-                    roleList: response.data.data.list
-                });
-            });
-        }
-    }
+
     async handleModal (flag) {
         this.setState({
             isModalVisible: flag,
@@ -105,12 +77,13 @@ export default class UserList extends React.Component {
             await this.getRoleList();
         }
     }
+
     handleSubmit () {
         this.formRef.current.validateFields().then((value) => {
-            value.roles =[];
+            value.roles = [];
             value.rids.forEach((id) => {
                 value.roles.push({
-                    id: id,
+                    id,
                 });
             });
             value.qsOption = {
@@ -138,20 +111,59 @@ export default class UserList extends React.Component {
             }
         });
     }
-    del (row) {
-        del(row.id, 'user').then(() => {
-			this.get();
-		});
-    }
+
     onChange (page, pageSize) {
         this.setState({
             current: page,
-            pageSize: pageSize,
+            pageSize,
         });
         setTimeout(() => {
             this.get();
         }, 0);
     }
+
+    getRoleList () {
+        if (!this.state.roleList) {
+            get({
+                page: this.state.current,
+                rows: this.state.pageSize,
+            }, 'role').then((response) => {
+                this.setState({
+                    roleList: response.data.data.list
+                });
+            });
+        }
+    }
+
+    get () {
+        get({
+            page: this.state.current,
+            rows: this.state.pageSize,
+        }, 'user').then((response) => {
+            this.setState({
+                listData: response.data.data
+            });
+        });
+    }
+
+    del (row) {
+        del(row.id, 'user').then(() => {
+			this.get();
+		});
+    }
+
+    updateUI (row) {
+        this.handleModal(true);
+        const arr = [];
+        row.roles.forEach((item) => {
+            arr.push(item.id);
+        });
+        row.rids = arr;
+        setTimeout(() => {
+            this.formRef.current.setFieldsValue(row);
+        }, 0);
+    }
+
     render () {
         return (
             <div className="admin_table">
@@ -172,19 +184,23 @@ export default class UserList extends React.Component {
                             pageSize: this.state.pageSize,
                             onChange: this.onChange.bind(this),
                         }}
-                        rowKey="id"/>
+                        rowKey="id"
+                    />
                 </div>
-                <Modal title="用户"
+                <Modal
+                    title="用户"
                     visible={this.state.isModalVisible}
                     onOk={this.handleSubmit.bind(this)}
-                    onCancel={this.handleModal.bind(this, false)}>
+                    onCancel={this.handleModal.bind(this, false)}
+                >
                     <Form
                         labelCol={{
                             span: 4
                         }}
-                        initialValues={{password: '', password1: '', rids: []}}
-                        ref={this.formRef}>
-                        <Form.Item name="id" hidden={true}>
+                        initialValues={{ password: '', password1: '', rids: [] }}
+                        ref={this.formRef}
+                    >
+                        <Form.Item name="id" hidden>
                             <Input />
                         </Form.Item>
                         <Form.Item label="用户名：" name="usercode" rules={[{ required: true, message: '请选择' }]}>
@@ -193,41 +209,54 @@ export default class UserList extends React.Component {
                         <Form.Item label="姓名：" name="username" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label="密码：" name="password" type="password" rules={[
-                            {validator: (_, value) => {
-                                let obj = this.formRef.current.getFieldsValue();
-                                if (!obj.id) {
-                                    if (!value) {
-                                        return Promise.reject('密码不能为空');
+                        <Form.Item
+                            label="密码："
+                            name="password"
+                            type="password"
+                            rules={[
+                                {
+                                    validator: (_, value) => {
+                                        const obj = this.formRef.current.getFieldsValue();
+                                        if (!obj.id) {
+                                            if (!value) {
+                                                return Promise.reject(new Error('密码不能为空'));
+                                            }
+                                        }
+                                        return Promise.resolve();
                                     }
                                 }
-                                return Promise.resolve();
-                            }}
-                        ]}>
+                            ]}
+                        >
                             <Input.Password />
                         </Form.Item>
-                        <Form.Item label="确认密码：" name="password1" type="password" rules={[
-                            {validator: (_, value) => {
-                                let obj = this.formRef.current.getFieldsValue();
-                                if (!obj.id) {
-                                    if (!value) {
-                                        return Promise.reject('密码不能为空');
+                        <Form.Item
+                            label="确认密码："
+                            name="password1"
+                            type="password"
+                            rules={[
+                                {
+                                    validator: (_, value) => {
+                                        const obj = this.formRef.current.getFieldsValue();
+                                        if (!obj.id) {
+                                            if (!value) {
+                                                return Promise.reject(new Error('密码不能为空'));
+                                            }
+                                        }
+                                        // eslint-disable-next-line
+                                        if (obj.password != value) {
+                                            return Promise.reject(new Error('密码不一致'));
+                                        }
+                                        return Promise.resolve();
                                     }
                                 }
-                                if (obj.password != value) {
-                                    return Promise.reject('密码不一致');
-                                }
-                                return Promise.resolve();
-                            }}
-                        ]}>
+                            ]}
+                        >
                             <Input.Password />
                         </Form.Item>
                         <Form.Item label="角色：" name="rids" rules={[{ required: true, message: '请选择' }]}>
                             <Select mode="multiple" allowClear>
                                 {
-                                    this.state.roleList && this.state.roleList.map((role) => {
-                                        return (<Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>);
-                                    })
+                                    this.state.roleList && this.state.roleList.map((role) => <Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>
@@ -235,7 +264,7 @@ export default class UserList extends React.Component {
                             <Input />
                         </Form.Item>
                     </Form>
-                </Modal> 
+                </Modal>
             </div>
         );
     }

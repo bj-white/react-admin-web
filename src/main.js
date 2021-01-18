@@ -2,23 +2,23 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-    HashRouter as Router,
+    BrowserRouter as Router,
     Switch,
     Route,
     Redirect,
-} from "react-router-dom";
+} from 'react-router-dom';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import { ConfigProvider } from 'antd';
-import App from './App';
 import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import App from './App.js';
 import todoApp from './store/reducer/index.js';
-import Login from './page/login/Login';
+import Login from './page/login/Login.js';
 
 import './style/index.less';
 
-let store = createStore(
+const store = createStore(
     todoApp,
     applyMiddleware(thunkMiddleware),
 );

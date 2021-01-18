@@ -1,7 +1,22 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {Button, Form, Input, Modal, Space, Popconfirm, Tree} from 'antd';
-import {get, add, update, del, getMenuIdByRole, addMenuRole} from '../../api/roleApi.js';
+import { connect } from 'react-redux';
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Space,
+    Popconfirm,
+    Tree
+} from 'antd';
+import {
+    get,
+    add,
+    update,
+    del,
+    getMenuIdByRole,
+    addMenuRole
+} from '../../api/roleApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
 const renderTree = (menus) => menus.map((menu) => {
@@ -11,18 +26,17 @@ const renderTree = (menus) => menus.map((menu) => {
                 {renderTree(menu.children)}
             </Tree.TreeNode>
         );
-    } else {
-        return (
-            <Tree.TreeNode key={menu.id} title={menu.name}></Tree.TreeNode>
-        );
     }
+    return (
+        <Tree.TreeNode key={menu.id} title={menu.name}/>
+    );
 });
 
 class MenuList extends React.Component {
-    formRef = React.createRef();
-    tempId = '';
     constructor (props) {
         super(props);
+        this.tempId = '';
+        this.formRef = React.createRef();
         this.state = {
             listData: {
                 count: 0,
@@ -72,6 +86,7 @@ class MenuList extends React.Component {
             checkedKeys: [],
         };
     }
+
     get () {
         get({
             page: this.state.current,
@@ -83,9 +98,11 @@ class MenuList extends React.Component {
             });
         });
     }
+
     componentDidMount () {
         this.get();
     }
+
     handleModal (flag) {
         this.setState({
             isModalVisible: flag,
@@ -94,9 +111,11 @@ class MenuList extends React.Component {
             this.formRef.current.resetFields();
         }
     }
-    shouldComponentUpdate (nextProps, nextState) {
+
+    shouldComponentUpdate () {
         return true;
     }
+
     handleSubmit () {
         this.formRef.current.validateFields().then((value) => {
             if (value.id) {
@@ -112,26 +131,30 @@ class MenuList extends React.Component {
             }
         });
     }
+
     updateUI (row) {
         this.handleModal(true);
         setTimeout(() => {
             this.formRef.current.setFieldsValue(row);
         }, 0);
     }
+
 	del (row) {
         del(row.id).then(() => {
 			this.get();
 		});
     }
+
     onChange (page, pageSize) {
         this.setState({
             current: page,
-            pageSize: pageSize,
+            pageSize,
         });
         setTimeout(() => {
             this.get();
         }, 0);
     }
+
     handleChange (e) {
         this.setState({
             searchParams: {
@@ -139,6 +162,7 @@ class MenuList extends React.Component {
             }
         });
     }
+
     editMenu (record) {
         this.tempId = record.id;
         getMenuIdByRole(record.id).then((response) => {
@@ -148,25 +172,29 @@ class MenuList extends React.Component {
             this.menuModel(true);
         });
     }
+
     menuModel (flag) {
         this.setState({
             menuVisible: flag,
         });
     }
+
     handleCheck (checkedKeys) {
         this.setState({
             checkedKeys: checkedKeys.checked,
         });
     }
+
     menuSubmit () {
         addMenuRole({
             id: this.tempId,
             menus: this.state.checkedKeys,
-            qsOption: {arrayFormat: 'repeat'},
+            qsOption: { arrayFormat: 'repeat' },
         }).then(() => {
             this.menuModel(false);
         });
     }
+
     render () {
         return (
             <div className="admin_table">
@@ -176,7 +204,7 @@ class MenuList extends React.Component {
                         <div className="item_r"><Input value={this.state.searchParams.name} onChange={this.handleChange.bind(this)} placeholder="请输入名称"/></div>
                     </div>
                     <div className="search_item">
-                        <div className="item_l"></div>
+                        <div className="item_l"/>
                         <div className="item_r btn">
                             <Button type="primary" onClick={this.get.bind(this)}>查询</Button>
                         </div>
@@ -199,29 +227,35 @@ class MenuList extends React.Component {
                             pageSize: this.state.pageSize,
                             onChange: this.onChange.bind(this),
                         }}
-                        rowKey="id"/>
+                        rowKey="id"
+                    />
                 </div>
-                <Modal title="角色"
+                <Modal
+                    title="角色"
                     visible={this.state.isModalVisible}
                     onOk={this.handleSubmit.bind(this)}
-                    onCancel={this.handleModal.bind(this, false)}>
+                    onCancel={this.handleModal.bind(this, false)}
+                >
                     <Form
                         labelCol={{
                             span: 4
                         }}
-                        ref={this.formRef}>
-                        <Form.Item name="id" hidden={true}>
+                        ref={this.formRef}
+                    >
+                        <Form.Item name="id" hidden>
                             <Input />
                         </Form.Item>
                         <Form.Item label="名称：" name="name" rules={[{ required: true, message: '请选择' }]}>
                             <Input />
                         </Form.Item>
                     </Form>
-                </Modal>                        
-                <Modal title="菜单"
+                </Modal>
+                <Modal
+                    title="菜单"
                     visible={this.state.menuVisible}
                     onOk={this.menuSubmit.bind(this)}
-                    onCancel={this.menuModel.bind(this, false)}>
+                    onCancel={this.menuModel.bind(this, false)}
+                >
                     <Tree
                         /* treeData={this.props.menus} */
                         checkable={true}
@@ -232,7 +266,7 @@ class MenuList extends React.Component {
                     >
                         {renderTree(this.props.menus)}
                     </Tree>
-                </Modal>                        
+                </Modal>
             </div>
         );
     }

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Menu } from 'antd';
-import {withRouter} from 'react-router-dom';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {getMenuTree} from '../store/action/menuAction.js';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import getMenuTree from '../store/action/menuAction.js';
 
 /* const renderMenuItem = item => (
     <Menu.Item key={item.url} icon={<span className="anticon"><i className={item.icon}></i></span>}>
@@ -22,43 +21,46 @@ const renderSubMenu = item => (
 const renderTree = (menus) => menus.map((item) => {
 	if (item.children) {
 		return (
-			<Menu.SubMenu key={item.url} icon={<span className="anticon"><i className={item.icon}></i></span>} title={item.name}>
+			<Menu.SubMenu key={item.url} icon={<span className="anticon"><i className={item.icon}/></span>} title={item.name}>
 				{renderTree(item.children)}
 			</Menu.SubMenu>
 		);
-	} else {
-		return (
-			<Menu.Item key={item.url} icon={<span className="anticon"><i className={item.icon}></i></span>}>
-				<Link to={(item.route || item.url) + (item.query || '')}>
-					{item.name}
-				</Link>
-			</Menu.Item>
-		);
-	}
+    }
+    return (
+        <Menu.Item key={item.url} icon={<span className="anticon"><i className={item.icon}/></span>}>
+            <Link to={(item.route || item.url) + (item.query || '')}>
+                {item.name}
+            </Link>
+        </Menu.Item>
+    );
 });
 
 class SiderBar extends React.Component {
     constructor (props) {
         super(props);
-        const {pathname} = props.location;
+        const { pathname } = props.location;
         this.state = {
             selectedKey: pathname,
             openKey: [pathname.substr(0, pathname.lastIndexOf('/'))],
         };
     }
+
     componentDidMount () {
         this.props.dispatch(getMenuTree());
     }
+
     menuClick (e) {
         this.setState({
             selectedKey: e.key,
         });
     }
+
     openMenu (v) {
         this.setState({
             openKey: v,
         });
     }
+
     render () {
         return (
             <div className="app_menu">
@@ -83,7 +85,7 @@ class SiderBar extends React.Component {
                     </Menu>
                 </div>
                 <div className="app_menu_bottom" onClick={this.props.toggleCollapsed}>
-                    <i className={this.props.collapsed ? 'icon iconfont iconzhankai1 collapsed' : 'icon iconfont iconzhankai1'}></i>
+                    <i className={this.props.collapsed ? 'icon iconfont iconzhankai1 collapsed' : 'icon iconfont iconzhankai1'}/>
                 </div>
             </div>
         );

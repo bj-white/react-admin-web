@@ -4,7 +4,7 @@ export default function authReducer (state = {
     realname: 'white',
     role: 'admin' */
 }, action) {
-    if (action.type == 'SET_USER') {
+    if (action.type === 'SET_USER') {
         return action.user;
     }
     return state;

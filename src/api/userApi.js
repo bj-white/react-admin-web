@@ -27,7 +27,7 @@ export function del (id) {
     return request({
         url: '/user/delete.do',
         params: {
-			id: id
+			id
 		}
     });
 }

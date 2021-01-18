@@ -1,19 +1,24 @@
 import React from 'react';
-import {message} from 'antd';
-import {connect} from 'react-redux';
+import {
+    message,
+    Form,
+    Input,
+    Button
+} from 'antd';
+import { connect } from 'react-redux';
 import Cookie from 'js-cookie';
-import {debounce} from '../../util/common.js';
-import {login} from '../../api/userApi.js';
+import { debounce } from '../../util/common.js';
+import { login } from '../../api/userApi.js';
+import Clock from './Clock.js';
+import './login.less';
 
 class Login extends React.Component {
     constructor (props) {
         super(props);
         this.handleSubmit = debounce(this.handleSubmit);
-        this.state = {
-            usercode: '',
-            password: ''
-        };
+        this.formRef = React.createRef();
     }
+
     handleSubmit () {
         /* this.props.dispatch({type: 'SET_USER', user: {
             username: 'zhangsan',
@@ -22,7 +27,18 @@ class Login extends React.Component {
             role: 'admin'
         }});
         this.props.history.push('/'); */
-        login({
+        this.formRef.current.validateFields().then((value) => {
+            login(value).then((response) => {
+                console.log(response);
+                if (response.data.status === 1) {
+                    Cookie.set('token', response.data.data);
+                    this.props.history.push('/');
+                } else {
+                    message.error(response.data.msg);
+                }
+            });
+        });
+        /* login({
             usercode: this.state.usercode,
             password: this.state.password,
         }).then((response) => {
@@ -33,24 +49,39 @@ class Login extends React.Component {
             } else {
                 message.error(response.data.msg);
             }
-        });
+        }); */
     }
-    usercodeChange (e) {
-        this.setState({
-            usercode: e.target.value,
-        });
-    }
-    passwordChange (e) {
-        this.setState({
-            password: e.target.value,
-        });
-    }
+
     render () {
         return (
-            <div>
-                <div>username:<input value={this.state.usercode} onChange={this.usercodeChange.bind(this)}/></div>
-                <div>password:<input type="password" value={this.state.password} onChange={this.passwordChange.bind(this)}/></div>
-                <div><button onClick={this.handleSubmit.bind(this)}>login</button></div>
+            <div className="login_wrapper">
+                <Clock/>
+                <div className="login_model">
+                    <Form ref={this.formRef}>
+                        <Form.Item
+                            label=""
+                            name="usercode"
+                            rules={[{ required: true, message: 'Please input your username!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            label=""
+                            name="password"
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type="primary" onClick={this.handleSubmit.bind(this)}>登 录</Button>
+                        </Form.Item>
+                    </Form>
+                    {/* <div>username:<input value={this.state.usercode} onChange={this.usercodeChange.bind(this)}/></div>
+                    <div>password:<input type="password" value={this.state.password} onChange={this.passwordChange.bind(this)}/></div>
+                    <div><button onClick={this.handleSubmit.bind(this)}>login</button></div> */}
+                </div>
             </div>
         );
     }
