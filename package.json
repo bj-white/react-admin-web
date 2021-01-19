@@ -14,7 +14,7 @@
     "babel-polyfill": "^6.26.0",
     "cross-fetch": "^3.0.5",
     "dayjs": "^1.8.18",
-    "echarts": "^5.0.0",
+    "echarts": "^5.0.1",
     "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
     "qs": "^6.9.4",

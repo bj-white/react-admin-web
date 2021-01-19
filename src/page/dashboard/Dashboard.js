@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as echarts from 'echarts/lib/echarts';
-import 'echarts/lib/chart/bar';
+import * as echarts from 'echarts';
 
 class Dashboard extends React.Component {
     constructor (props) {
         super(props);
-        this.myChart = null;
         this.onResize = this.onResize.bind(this);
     }
 
