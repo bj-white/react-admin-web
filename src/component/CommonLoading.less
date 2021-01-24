@@ -1,0 +1,41 @@
+.common_loading {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    .item {
+        position: absolute;
+        left: 0;
+        height: 6px;
+        border-radius: 3px;
+        background: #fff;
+        animation-name: spin;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+    .item1 {
+        animation-delay: 0s;
+    }
+    .item2 {
+        animation-delay: 0.5s;
+    }
+    .item3 {
+        animation-delay: 1s;
+    }
+    .item4 {
+        animation-delay: 1.5s;
+    }
+    @keyframes spin {
+        0% {
+            left: 0;
+            width: 50px;
+        }
+        100% {
+            left: 100%;
+            width: 30px;
+        }
+    }
+}

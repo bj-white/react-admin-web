@@ -1,11 +1,13 @@
 import React from 'react';
+// import Loadable from 'react-loadable';
+// import CommonLoading from '../component/CommonLoading.js';
 
-/* import Loadable from 'react-loadable';
-const Loading = () => <div></div>;
-export default {
-    Dashboard: Loadable({loader: () => import('./dashboard/Dashboard'), loading: Loading}),
-    UserList: Loadable({loader: () => import('./user/UserList'), loading: Loading}),
-    RoleList: Loadable({loader: () => import('./role/RoleList'), loading: Loading}),
+/* export default {
+    Dashboard: Loadable({ loader: () => import('./dashboard/Dashboard'), loading: CommonLoading }),
+    UserList: Loadable({ loader: () => import('./user/UserList'), loading: CommonLoading }),
+    RoleList: Loadable({ loader: () => import('./role/RoleList'), loading: CommonLoading }),
+    MenuList: Loadable({ loader: () => import('./menu/MenuList'), loading: CommonLoading }),
+    PermissionList: Loadable({ loader: () => import('./permission/PermissionList'), loading: CommonLoading }),
 }; */
 
 function asyncComponent (importComponent) {
@@ -38,5 +40,4 @@ export default {
     RoleList: asyncComponent(() => import('./role/RoleList')),
     MenuList: asyncComponent(() => import('./menu/MenuList')),
     PermissionList: asyncComponent(() => import('./permission/PermissionList')),
-    Login: asyncComponent(() => import('./login/Login')),
 };
