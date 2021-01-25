@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import Cookie from 'js-cookie';
 import { debounce } from '../../util/common.js';
 import { login } from '../../api/userApi.js';
-import Clock from './Clock.js';
 import './login.less';
 
 class Login extends React.Component {
@@ -55,7 +54,6 @@ class Login extends React.Component {
     render () {
         return (
             <div className="login_wrapper">
-                <Clock/>
                 <div className="login_model">
                     <Form ref={this.formRef}>
                         <Form.Item

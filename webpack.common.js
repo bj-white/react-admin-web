@@ -24,6 +24,7 @@ module.exports = {
                 use: [
                     'style-loader',
                     'css-loader',
+                    'postcss-loader',
                     {
                         loader: 'less-loader',
                         options: {
@@ -31,7 +32,7 @@ module.exports = {
                                 javascriptEnabled: true,
                             }
                         }
-                    }
+                    },
                 ],
             },
             /* {
