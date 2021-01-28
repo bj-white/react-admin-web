@@ -9,10 +9,13 @@ import {
     message
 } from 'antd';
 import React from 'react';
-import { connect } from 'react-redux';
-import { add, update, del } from '../../api/menuApi.js';
+import {
+    get,
+    add,
+    update,
+    del,
+} from '../../api/menuApi.js';
 import CommonTable from '../../component/CommonTable.js';
-import getMenuTree from '../../store/action/menuAction.js';
 
 const renderTree = (data) => data.map((item) => {
     if (item.children) {
@@ -84,11 +87,16 @@ class MenuList extends React.Component {
                 },
             ],
             isModalVisible: false,
+            menus: [],
         };
     }
 
     get () {
-        this.props.dispatch(getMenuTree());
+        get().then((response) => {
+            this.setState({
+                menus: response.data.data,
+            });
+        });
     }
 
     handleModal (flag) {
@@ -100,8 +108,8 @@ class MenuList extends React.Component {
         }
     }
 
-    shouldComponentUpdate () {
-        return true;
+    componentDidMount () {
+        this.get();
     }
 
     handleSubmit () {
@@ -154,7 +162,7 @@ class MenuList extends React.Component {
                         </ul>
                     </div>
                     <CommonTable
-                        dataSource={this.props.menus}
+                        dataSource={this.state.menus}
                         columns={this.state.columns}
                         pagination={false}
                         expandable={{ defaultExpandAllRows: true }}
@@ -199,7 +207,7 @@ class MenuList extends React.Component {
                                 allowClear
                                 treeDefaultExpandAll
                             >
-                                {renderTree([{ id: 0, name: '一级菜单', children: this.props.menus }])}
+                                {renderTree([{ id: 0, name: '一级菜单', children: this.state.menus }])}
                             </TreeSelect>
                         </Form.Item>
                         <Form.Item label="url：" name="url" rules={[{ required: true, message: '请选择' }]}>
@@ -224,6 +232,4 @@ class MenuList extends React.Component {
     }
 }
 
-export default connect((state) => ({
-    menus: state.menuReducer,
-}))(MenuList);
+export default MenuList;

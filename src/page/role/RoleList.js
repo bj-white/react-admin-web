@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {
     Button,
     Form,
@@ -17,6 +16,7 @@ import {
     getMenuIdByRole,
     addMenuRole
 } from '../../api/roleApi.js';
+import { get as getMenu } from '../../api/menuApi.js';
 import CommonTable from '../../component/CommonTable.js';
 
 const renderTree = (menus) => menus.map((menu) => {
@@ -84,7 +84,16 @@ class MenuList extends React.Component {
             isModalVisible: false,
             menuVisible: false,
             checkedKeys: [],
+            menus: [],
         };
+    }
+
+    getMenu () {
+        getMenu().then((response) => {
+            this.setState({
+                menus: response.data.data
+            });
+        });
     }
 
     get () {
@@ -101,6 +110,7 @@ class MenuList extends React.Component {
 
     componentDidMount () {
         this.get();
+        this.getMenu();
     }
 
     handleModal (flag) {
@@ -110,10 +120,6 @@ class MenuList extends React.Component {
         if (!flag) {
             this.formRef.current.resetFields();
         }
-    }
-
-    shouldComponentUpdate () {
-        return true;
     }
 
     handleSubmit () {
@@ -257,14 +263,13 @@ class MenuList extends React.Component {
                     onCancel={this.menuModel.bind(this, false)}
                 >
                     <Tree
-                        /* treeData={this.props.menus} */
                         checkable={true}
                         checkedKeys={this.state.checkedKeys}
                         defaultExpandAll={true}
                         checkStrictly={true}
                         onCheck={this.handleCheck.bind(this)}
                     >
-                        {renderTree(this.props.menus)}
+                        {renderTree(this.state.menus)}
                     </Tree>
                 </Modal>
             </div>
@@ -272,6 +277,4 @@ class MenuList extends React.Component {
     }
 }
 
-export default connect((state) => ({
-    menus: state.menuReducer,
-}))(MenuList);
+export default MenuList;

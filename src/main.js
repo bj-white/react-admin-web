@@ -15,6 +15,7 @@ import { createStore, applyMiddleware } from 'redux';
 import App from './App.js';
 import todoApp from './store/reducer/index.js';
 import Login from './page/login/Login.js';
+import NotFound from './component/NotFound.js';
 
 import './style/index.less';
 
@@ -33,6 +34,8 @@ ReactDOM.render(
                         <App/>
                     </Route>
                     <Route path="/login" component={Login} />
+                    <Route path="/404" component={NotFound} />
+                    <Route component={NotFound} />
                 </Switch>
             </Router>
         </ConfigProvider>

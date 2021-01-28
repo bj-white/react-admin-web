@@ -56,18 +56,26 @@ module.exports = {
                         },
                     }
                 ],
-                exclude: /node_modules/,
+                include: path.resolve(__dirname, 'src'),
             },
             {
                 test: /\.(png|jpg|gif)$/i,
                 use: 'url-loader',
-                exclude: /node_modules/,
+                include: path.resolve(__dirname, 'src'),
             },
         ],
     },
+    /* externals: {
+        "react": "React",
+        "react-dom": "ReactDOM"
+    }, */
+    resolve: {},
     optimization: {
         splitChunks: {
             chunks: 'all',
         },
+    },
+    performance: {
+        hints:false
     },
 };

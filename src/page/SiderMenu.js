@@ -4,22 +4,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import getMenuTree from '../store/action/menuAction.js';
 
-/* const renderMenuItem = item => (
-    <Menu.Item key={item.url} icon={<span className="anticon"><i className={item.icon}></i></span>}>
-        <Link to={(item.route || item.url) + (item.query || '')}>
-            {item.name}
-        </Link>
-    </Menu.Item>
-);
-
-const renderSubMenu = item => (
-    <Menu.SubMenu key={item.url} icon={<span className="anticon"><i className={item.icon}></i></span>} title={item.name}>
-        {item.children.map(item => renderMenuItem(item))}
-    </Menu.SubMenu>
-); */
-
 const renderTree = (menus) => menus.map((item) => {
-	if (item.children) {
+	if (item.children && item.children.length) {
 		return (
 			<Menu.SubMenu key={item.url} icon={<span className="anticon"><i className={item.icon}/></span>} title={item.name}>
 				{renderTree(item.children)}
@@ -60,6 +46,11 @@ class SiderBar extends React.Component {
             openKey: v,
         });
     }
+
+    /* shouldComponentUpdate (nextProps, nextState) {
+        console.log(nextState.openKey);
+        return true;
+    } */
 
     render () {
         return (
