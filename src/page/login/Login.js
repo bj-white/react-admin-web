@@ -19,14 +19,9 @@ class Login extends React.Component {
     }
 
     handleSubmit () {
-        /* this.props.dispatch({type: 'SET_USER', user: {
-            username: 'zhangsan',
-            age: 18,
-            realname: 'white',
-            role: 'admin'
-        }});
-        this.props.history.push('/'); */
+        console.log('start');
         this.formRef.current.validateFields().then((value) => {
+            console.log(value);
             login(value).then((response) => {
                 console.log(response);
                 if (response.data.status === 1) {
@@ -37,18 +32,6 @@ class Login extends React.Component {
                 }
             });
         });
-        /* login({
-            usercode: this.state.usercode,
-            password: this.state.password,
-        }).then((response) => {
-            console.log(response);
-            if (response.data.status == 1) {
-                Cookie.set('token', response.data.data);
-                this.props.history.push('/');
-            } else {
-                message.error(response.data.msg);
-            }
-        }); */
     }
 
     render () {
