@@ -3,7 +3,7 @@ module.exports = {
         [
             "@babel/env",
             {
-                useBuiltIns: "usage",
+                useBuiltIns: "usage", // 启用polyfill
                 corejs: 3,
             }
         ],

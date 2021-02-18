@@ -2,8 +2,10 @@ import axios from 'axios';
 import qs from 'qs';
 import Cookie from 'js-cookie';
 
+console.log(process.env.NODE_ENV);
+
 const request = axios.create({
-    baseURL: '/api',
+    baseURL: process.env.NODE_ENV === 'development' ? '/api' : '',
     transformRequest: [function (data) {
         if (data && data.qsOption) {
             const qsOption = JSON.parse(JSON.stringify(data.qsOption));
